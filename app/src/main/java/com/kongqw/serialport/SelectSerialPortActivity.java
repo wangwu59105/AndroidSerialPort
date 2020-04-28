@@ -1,7 +1,7 @@
 package com.kongqw.serialport;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,6 +13,10 @@ import com.kongqw.serialportlibrary.SerialPortFinder;
 
 import java.util.ArrayList;
 
+/**
+ * 需要设备权限
+ *
+ */
 public class SelectSerialPortActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private static final String TAG = SelectSerialPortActivity.class.getSimpleName();

@@ -2,11 +2,25 @@
 
 buildscript {
     repositories {
-        jcenter()
+        maven { url 'https://maven.aliyun.com/repository/public/' }
+        maven { url 'https://maven.aliyun.com/repository/google/' }
+        maven { url 'https://dl.google.com/dl/android/maven2/' }
+        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        maven { url 'https://maven.fabric.io/public' }//关键
+        maven { url 'https://jitpack.io' }//关键
+        maven { url 'https://maven.fabric.io/public' }//关键
+        maven { url "https://maven.google.com" }//关键
+        maven{
+            url 'file://D://android/maven/deepbroad/'
+        }
+        maven{
+            url 'file://D://android/androidgit/deepbroadCurrent/deepview_maven/'
+        }
+        mavenCentral()
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
-
+        classpath 'com.android.tools.build:gradle:3.5.3'//3.5.3
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -14,8 +28,33 @@ buildscript {
 
 allprojects {
     repositories {
-        jcenter()
+        maven { url 'https://maven.aliyun.com/repository/public/' }
+        maven { url 'https://maven.aliyun.com/repository/google/' }
+        maven { url 'https://jitpack.io' }
+        maven {
+            url 'http://mirrors.huaweicloud.com/repository/maven/huaweicloudsdk/'
+        }
+        maven {
+            url 'http://mirrors.huaweicloud.com/repository/maven/'
+        }
+        // 添加到 root 的 build.gradle
+        maven{
+            url 'file://D://android/maven/deepbroad/'
+        }
+        maven{
+            url 'file://D://android/androidgit/deepbroadCurrent/deepview_maven/'
+        }
+        mavenCentral()
+        google()
+
     }
+
+    //打印出警告过时的覆盖方法
+//    gradle.projectsEvaluated {
+//        tasks.withType(JavaCompile) {
+//            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+//        }
+//    }
 }
 
 task clean(type: Delete) {

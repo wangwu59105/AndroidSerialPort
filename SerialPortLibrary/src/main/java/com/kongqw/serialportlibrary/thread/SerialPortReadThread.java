@@ -50,6 +50,9 @@ public abstract class SerialPortReadThread extends Thread {
             } catch (IOException e) {
                 e.printStackTrace();
                 return;
+            }catch (Exception e){
+                e.printStackTrace();
+                return;
             }
         }
     }
