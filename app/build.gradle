@@ -4,7 +4,7 @@ android {
     compileSdkVersion 29
     buildToolsVersion '29.0.3'
     defaultConfig {
-        applicationId "com.kongqw.serialport"
+        applicationId "com.sf.deepview"
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
@@ -15,6 +15,15 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    signingConfigs {
+        signconfig {
+            storeFile file("../youjia_m5_platform.jks")
+            keyAlias 'android'
+            keyPassword 'android'
+            storePassword 'android'
         }
     }
 }

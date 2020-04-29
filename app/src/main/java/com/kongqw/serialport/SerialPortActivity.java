@@ -24,10 +24,18 @@ public class SerialPortActivity extends AppCompatActivity implements OnOpenSeria
     public static final String DEVICE = "device";
     private SerialPortManager mSerialPortManager;
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_serial_port);
+
+        EditText editTextSendContent = (EditText) findViewById(R.id.et_send_content);
+        editTextSendContent.setEnabled(false);
+        editTextSendContent.setText(bytes2hex(data));
+
 
         Device device = (Device) getIntent().getSerializableExtra(DEVICE);
         Log.i(TAG, "onCreate: device = " + device);
@@ -49,7 +57,7 @@ public class SerialPortActivity extends AppCompatActivity implements OnOpenSeria
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                showToast(String.format("接收\n%s", new String(finalBytes)));
+                                showToast(String.format("接收\n%s",  bytes2hex(finalBytes)));
                             }
                         });
                     }
@@ -62,7 +70,7 @@ public class SerialPortActivity extends AppCompatActivity implements OnOpenSeria
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                showToast(String.format("发送\n%s", new String(finalBytes)));
+                                showToast(String.format("发送\n%s", bytes2hex(finalBytes)));
                             }
                         });
                     }
@@ -72,6 +80,29 @@ public class SerialPortActivity extends AppCompatActivity implements OnOpenSeria
         Log.i(TAG, "onCreate: openSerialPort = " + openSerialPort);
     }
 
+
+
+    /*
+     * byte数组转16进制
+     */
+    public static String bytes2hex(byte[] bytes) {
+
+        StringBuilder sb = new StringBuilder();
+        if (bytes == null || bytes.length <= 0) {
+            return "";
+        }
+        String tmp = null;
+        for (byte b : bytes) {
+            // 将每个字节与0xFF进行与运算，然后转化为10进制，然后借助于Integer再转化为16进制
+            tmp = Integer.toHexString(0xFF & b);
+            if (tmp.length() == 1) {
+                tmp = "0" + tmp;
+            }
+            sb.append(tmp).append(' ');
+        }
+        return sb.toString();
+
+    }
     @Override
     protected void onDestroy() {
         if (null != mSerialPortManager) {
@@ -130,6 +161,7 @@ public class SerialPortActivity extends AppCompatActivity implements OnOpenSeria
                 .create()
                 .show();
     }
+    byte[] data = new byte[]{0x40,0x40, 0x00, 0x02, (byte) 0x81, 0x00, 0x33, (byte) 0xa1};//
 
     /**
      * 发送数据
@@ -137,21 +169,10 @@ public class SerialPortActivity extends AppCompatActivity implements OnOpenSeria
      * @param view view
      */
     public void onSend(View view) {
-        EditText editTextSendContent = (EditText) findViewById(R.id.et_send_content);
-        if (null == editTextSendContent) {
-            return;
-        }
-        String sendContent = editTextSendContent.getText().toString().trim();
-        if (TextUtils.isEmpty(sendContent)) {
-            Log.i(TAG, "onSend: 发送内容为 null");
-            return;
-        }
 
-        byte[] sendContentBytes = sendContent.getBytes();
-
-        boolean sendBytes = mSerialPortManager.sendBytes(sendContentBytes);
+        boolean sendBytes = mSerialPortManager.sendBytes(data);
         Log.i(TAG, "onSend: sendBytes = " + sendBytes);
-        showToast(sendBytes ? "发送成功" : "发送失败");
+        showToast(sendBytes ? "send Success" : "send Error");
     }
 
     private Toast mToast;
