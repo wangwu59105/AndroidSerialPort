@@ -51,8 +51,7 @@ public class SerialPortActivity extends AppCompatActivity implements OnOpenSeria
                 .setOnSerialPortDataListener(new OnSerialPortDataListener() {
                     @Override
                     public void onDataReceived(byte[] bytes) {
-                        Log.i(TAG, "onDataReceived [ byte[] ]: " + Arrays.toString(bytes));
-                        Log.i(TAG, "onDataReceived [ String ]: " + new String(bytes));
+                        Log.i(TAG, "onDataReceived [ byte[] ]: " + bytes2hex(bytes));
                         final byte[] finalBytes = bytes;
                         runOnUiThread(new Runnable() {
                             @Override
@@ -64,8 +63,7 @@ public class SerialPortActivity extends AppCompatActivity implements OnOpenSeria
 
                     @Override
                     public void onDataSent(byte[] bytes) {
-                        Log.i(TAG, "onDataSent [ byte[] ]: " + Arrays.toString(bytes));
-                        Log.i(TAG, "onDataSent [ String ]: " + new String(bytes));
+                        Log.i(TAG, "onDataSent [ byte[] ]: " + bytes2hex(bytes));
                         final byte[] finalBytes = bytes;
                         runOnUiThread(new Runnable() {
                             @Override
